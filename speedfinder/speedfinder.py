@@ -21,12 +21,12 @@ class SpeedFinder:
     where n is the length of the text and m is the number of keywords.
 
     The keywords are represented as a tree (a dict of dicts of dicts ...). When we want to find keywords in a text,
-    we simply go through the text and check whether a given sequence of chars reaches a leaf in the tree , which is
+    we simply go through the text and check whether a given sequence of chars reaches a leaf in the tree, which is
     a dict whose value is an empty dict.
     """
 
     def __init__(self, keywords: Union[str, Iterable[str]]=None) -> None:
-        self.tree = {}
+        self._tree = {}
         if keywords:
             self.add(keywords)
 
@@ -34,7 +34,7 @@ class SpeedFinder:
         if isinstance(keywords, str):
             keywords = [keywords]
         for kw in keywords:
-            self.tree = self.add_to_tree(self.tree, kw)
+            self._tree = self.add_to_tree(self._tree, kw)
 
     def find_iter(self, text: str, match_words: bool=False, limit: int=0) -> Iterator[Tuple[int, str]]:
         """
@@ -49,7 +49,7 @@ class SpeedFinder:
         for i, l in enumerate(text):
             if match_words and i > 0 and letter.match(text[i - 1]):
                 continue
-            match, complete = self.in_tree(self.tree, text[i:], '')
+            match, complete = self.in_tree(self._tree, text[i:], '')
             if complete:
                 if match_words and letter.match(text[i + len(match)]):
                     continue
@@ -83,3 +83,10 @@ class SpeedFinder:
             tree[l] = {}
         SpeedFinder.add_to_tree(tree[l], word[1:])
         return tree
+
+
+if __name__ == '__main__':
+    import pprint
+    sf = SpeedFinder(['chicken', 'eggs'])
+    text = 'I love chicken and eggs'
+    pprint.pprint(sf._tree)

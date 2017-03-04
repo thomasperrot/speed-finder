@@ -96,5 +96,3 @@ ENV/
 
 # Rope project settings
 .ropeproject
-test.py
-test
