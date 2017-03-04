@@ -1,5 +1,7 @@
 # SpeedFinder
 
+[![Build Status](https://travis-ci.org/thomasperrot/speed-finder.svg?branch=master)](https://travis-ci.org/thomasperrot/speed-finder)
+
 An efficient python tool to search keywords in texts.
 
 It currently runs in O(n x log(m)), where n is the length of the text and m is the number of keywords.
